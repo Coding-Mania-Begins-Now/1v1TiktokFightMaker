@@ -8,7 +8,6 @@ import customtkinter
 import playsound
 import pygame
 from PIL import Image, ImageTk
-
 pygame.mixer.init()
 s = pygame.mixer.Sound('song.wav')
 def create_files(s):
