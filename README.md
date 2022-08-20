@@ -7,10 +7,9 @@ If you are unsure of what a tiktok fight is, below is a link:
 
 Once the project is executed, there will be info that will cover through the steps you will need to get the app to function.
 
-(You should see a *help* button)
+(You should see a help button)
 ## Dependencies
 Requires customtkinter, pygame, playsound (version 1.2.2), threading and Pillow
-
 
 
 Install the libraries using the command below:
