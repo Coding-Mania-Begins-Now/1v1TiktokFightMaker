@@ -8,21 +8,43 @@ import customtkinter
 import playsound
 import pygame
 from PIL import Image, ImageTk
-from tkinter import ttk
+
 pygame.mixer.init()
 s = pygame.mixer.Sound('song.wav')
 def create_files(s):
+    '''
+    Creates images based on the window size, and the file uploaded.
+    :param s: the window size
+    '''
     global f1, f2, fullf1, fullf2, fullf3, fullf4
     f1, f2 = resizer(file_list[0], (s//2, s)), resizer(file_list[1], (s//2, s))
     fullf1, fullf2, fullf3, fullf4 = resizer(file_list[2], (s, s)), resizer(file_list[3], (s, s)), resizer(
         file_list[4], (s, s)), resizer(file_list[5], (s, s))
 def resizer(link: str, size: tuple):
+    '''
+    :param link: link to the photo/image
+    :param size: size of the photo required
+    :return: Resized PhotoImage object to dimensions (size[0], size[1])
+    '''
     return PIL.ImageTk.PhotoImage(PIL.Image.open(link).resize(size), PIL.Image.Resampling.LANCZOS)
 def play(audio):
+    '''
+    Plays an audio in a different thread from the main thread so that program can run with sound in the background.
+    :param audio: audio file
+    '''
     threading.Thread(target=lambda: playsound.playsound(audio)).start()
 counter, c1, c2 = 0, 0, 0
 C = 40.1
 def move(canvas, child, x_pos, y_pos, speed, timer=float('inf')):
+    '''
+
+    :param canvas: the canvas used
+    :param child: the image about to be modified
+    :param x_pos: the desired x-position of the image
+    :param y_pos: the desired y-position of the image
+    :param speed: the speed at which the child will travel to the desired co-ordinates
+    :param timer: (optional) stops the image moving, once it has moved for a certain amount of time.
+    '''
     global begin, c1, c2, option_config, vals, si, C
     tim = 0
     while not ((round(canvas.coords(child)[0]) == x_pos and round(canvas.coords(child)[1]) == y_pos) or tim >= timer):
@@ -31,6 +53,7 @@ def move(canvas, child, x_pos, y_pos, speed, timer=float('inf')):
         time.sleep(0.01)
     values = [12 if int(option_config[i][2].get()) and int(option_config[i][3].get()) else 1 if int(
         option_config[i][2].get()) else 2 for i in range(7)]
+    # 12 represents both characters, 1 represents the first character and 2 represents the second character.
     if speed == C * (700/si):
         time.sleep(0.5)
         for vv in range(7):
@@ -145,7 +168,7 @@ def start():
                 z.destroy()
         q.destroy()
 
-    window.geometry(f'{si}x{si}')
+    window.geometry(f'{si}x{si}') # Matches window size according to the si variable
 
     create_files(si)
     fighter_canvas = Canvas(window, background='black', borderwidth=0, highlightthickness=0)
@@ -159,7 +182,7 @@ def start():
     s.play()
 
 file_list = [None for i in range(6)]
-f1, f2, fullf1, fullf2, fullf3, fullf4 = None, None, None, None, None, None
+f1, f2, fullf1, fullf2, fullf3, fullf4 = None, None, None, None, None, None # referencing images
 t_T_t = []
 
 
@@ -196,16 +219,7 @@ def check():
     if not None in file_list and color_me != '' and t_T_t:
 
         info_button.configure(state='normal')
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+
 def help_me():
     wow = customtkinter.CTkToplevel(window)
     wow.grab_set()
